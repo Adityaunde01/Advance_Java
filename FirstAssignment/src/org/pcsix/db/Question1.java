@@ -13,9 +13,11 @@ public class Question1 {
 
 	public static void main(String[] args) {
 
+		String URL = "jdbc:mysql://localhost:3306/batchone";
+		String user = "root";
+		String pass = "cdac";
 
-
-		try(Connection dbConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/batchone", "root", "cdac");
+		try(Connection dbConnection = DriverManager.getConnection(URL,user,pass);
 				Scanner sc  = new Scanner(System.in);
 				){
 			while(true) {
