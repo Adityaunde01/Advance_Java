@@ -51,7 +51,7 @@ public class Authenticate extends HttpServlet {
 			
 			ResultSet result = psget.executeQuery();
 			
-			if(result.next()) {
+			if(result.next()) {   
 				out.println("user Authenticated succesfully");
 			}else {
 				out.println("<h1 style=\"color:red;text-align:center;\">Invald user</h1>");
