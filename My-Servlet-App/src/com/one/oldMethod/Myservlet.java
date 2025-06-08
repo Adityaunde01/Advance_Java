@@ -16,6 +16,7 @@ public class Myservlet extends HttpServlet {
         
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+       
         
         out.println("<!DOCTYPE html>");
         out.println("<html>");
