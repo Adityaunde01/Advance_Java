@@ -36,9 +36,9 @@ public class Authentication extends HttpServlet {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			String db_url = "jdbc:mysql://localhost:3306/onlineshop"; 
 			String user = "root";
-			String pass = "cdac";
+			String pass = "my-secret-pw";
 			dbConnection = DriverManager.getConnection(db_url,user,pass);
-			psAuth = dbConnection.prepareStatement("Select * from user where username=? and password=?");
+			psAuth = dbConnection.prepareStatement("Select * from users where name=? and password=?");
 			System.out.println("Db Connected succesfully");
 		} catch (SQLException | ClassNotFoundException e) {
 			System.out.println("Db connectoin failed");
@@ -87,11 +87,13 @@ public class Authentication extends HttpServlet {
 				psAuth.setString(1, userName);
 				psAuth.setString(2, password);
 				result = psAuth.executeQuery();
+				//result.next();
 				
 				if(result.next()) {
+					System.out.println(result.getString(2));
 					HttpSession session = request.getSession();
 					session.setAttribute("username", userName);
-					response.sendRedirect("CategoryWeb");
+					response.sendRedirect("Category");
 				}else {
 					doGet(request, response);
 				}

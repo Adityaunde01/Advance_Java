@@ -8,50 +8,51 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
-
-public class CategoryDAOImpl implements CategoryDAO {
-	
-	//private Iterator<Category> allCategories;
+public class ProductDAOImpl implements ProductDAO {
 	Connection dbConnection = null;
 	PreparedStatement psCategory = null;
 	
-	public CategoryDAOImpl() {
+	public ProductDAOImpl() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			String db_url = "jdbc:mysql://localhost:3306/onlineshop"; 
 			String user = "root";
 			String pass = "my-secret-pw";
 			dbConnection = DriverManager.getConnection(db_url,user,pass);
-			psCategory = dbConnection.prepareStatement("Select * from categories");
+			psCategory = dbConnection.prepareStatement("select * from products  where category_id=?");
 			System.out.println("Db Connected succesfully");
 		} catch (SQLException | ClassNotFoundException e) {
-			System.out.println("Db connectoin failed");
+			System.out.println("Db connectoin failed: " + e.getMessage());
 		}
 		
 	}
 	
+	
+	
+	
 	@Override
-	public Iterator<Category> getAllCategory() {
-		ResultSet resultCategory = null;
-		ArrayList<Category> allCategory = new ArrayList<>();
+	public Iterator<Product> getProducts(String custId) {
+		ResultSet resultProduct = null;
+		ArrayList<Product> allProducts = new ArrayList<>();
 		try {
-			resultCategory = psCategory.executeQuery();
-			while(resultCategory.next()) {
-			int catId = resultCategory.getInt(1);
-			String catName = resultCategory.getString(2);
-			String catDesc = resultCategory.getString(3);
-			String catImage =	resultCategory.getString(4);
-			Category current = new Category(catId, catName, catDesc, catImage);
-			allCategory.add(current);
+			psCategory.setString(1, custId);
+			resultProduct = psCategory.executeQuery();
+			while(resultProduct.next()) {
+			int pid = resultProduct.getInt(1);
+			String pName = resultProduct.getString(2);
+			String pDesc = resultProduct.getString(3);
+			Double pPrice = resultProduct.getDouble(4);
+			String pImage =	resultProduct.getString(5);
+			Product current = new Product(pid, pName, pDesc, pPrice, pImage);
+			allProducts.add(current);
 			}
-			return allCategory.iterator();
+			return allProducts.iterator();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(resultCategory != null)
-					resultCategory.close();
+				if(resultProduct != null)
+					resultProduct.close();
 				if(psCategory != null)
 					psCategory.close();
 				if(dbConnection != null){
@@ -63,8 +64,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 			}
 		}
 		
-		
 		return null;
 	}
-
+	
 }
