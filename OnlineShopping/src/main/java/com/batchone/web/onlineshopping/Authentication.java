@@ -1,6 +1,7 @@
 package com.batchone.web.onlineshopping;
 
 import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -34,9 +35,10 @@ public class Authentication extends HttpServlet {
 		super.init(config);
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String db_url = "jdbc:mysql://localhost:3306/onlineshop"; 
-			String user = "root";
-			String pass = "my-secret-pw";
+			ServletContext app = getServletContext();
+			String db_url = app.getInitParameter("db_url"); 
+			String user = app.getInitParameter("user");
+			String pass = app.getInitParameter("pass");
 			dbConnection = DriverManager.getConnection(db_url,user,pass);
 			psAuth = dbConnection.prepareStatement("Select * from users where name=? and password=?");
 			System.out.println("Db Connected succesfully");
