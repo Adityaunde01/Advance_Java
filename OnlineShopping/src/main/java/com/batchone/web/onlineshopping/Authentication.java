@@ -17,14 +17,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.batchone.web.onlineshopping.dao.User;
+import com.batchone.web.onlineshopping.dao.UserDAOImpl;
+import com.batchone.web.onlineshopping.dao.UserDao;
+
 /**
  * Servlet implementation class Authentication
  */
 @WebServlet("/auth")
 public class Authentication extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Connection dbConnection = null;
-	private PreparedStatement psAuth = null;
+	UserDao userDao = null;
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -33,19 +36,7 @@ public class Authentication extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		super.init(config);
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			ServletContext app = getServletContext();
-			String db_url = app.getInitParameter("db_url"); 
-			String user = app.getInitParameter("user");
-			String pass = app.getInitParameter("pass");
-			dbConnection = DriverManager.getConnection(db_url,user,pass);
-			psAuth = dbConnection.prepareStatement("Select * from users where name=? and password=?");
-			System.out.println("Db Connected succesfully");
-		} catch (SQLException | ClassNotFoundException e) {
-			System.out.println("Db connectoin failed");
-			throw new ServletException("Connection failed", e);
-		}
+		 userDao = new UserDAOImpl(getServletContext());
 		
 	}
 	
@@ -56,14 +47,7 @@ public class Authentication extends HttpServlet {
 	public void destroy() {
 		// TODO Auto-generated method stub
 		super.destroy();
-		try {
-			if(psAuth != null)
-				psAuth.close();
-			if(dbConnection != null)
-				dbConnection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		userDao.close();
 	}
 
 	@Override
@@ -77,40 +61,21 @@ public class Authentication extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
-			PrintWriter out = response.getWriter();
-			
+		
 			String userName = request.getParameter("username");
 
 			String password = request.getParameter("password");
 			
-			System.out.println(userName+ " " +password);
-			ResultSet result = null;
-			try {
-				psAuth.setString(1, userName);
-				psAuth.setString(2, password);
-				result = psAuth.executeQuery();
-				//result.next();
-				
-				if(result.next()) {
-					System.out.println(result.getString(2));
-					HttpSession session = request.getSession();
-					session.setAttribute("username", userName);
-					response.sendRedirect("Category");
-				}else {
-					doGet(request, response);
-				}
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-			} finally {
-				try {
-					if(result != null) {
-						result.close();
-					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			User user = userDao.getUser(userName, password);
+					
+			HttpSession session = request.getSession();
+			session.setAttribute("userObj", user);
+			
+			response.sendRedirect("Category");
+			
+			
+			
+		
 		
 			
 	}

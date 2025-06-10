@@ -1,5 +1,7 @@
 package com.batchone.web.onlineshopping;
 
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -7,8 +9,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Iterator;
-import java.util.Locale.Category;
 
 import com.batchone.web.onlineshopping.dao.CategoryDAO;
 import com.batchone.web.onlineshopping.dao.CategoryDAOImpl;
@@ -19,7 +24,8 @@ import com.batchone.web.onlineshopping.dao.CategoryDAOImpl;
 @WebServlet("/Category")
 public class CategoryWeb extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	Connection dbConnection = null;
+	PreparedStatement psCategory = null; 
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -28,6 +34,27 @@ public class CategoryWeb extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		// TODO Auto-generated method stub
+		super.init(config);
+		
+		
+		ServletContext application = config.getServletContext();
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			String db_url = application.getInitParameter("db_url"); 
+			String user = application.getInitParameter("user");
+			String pass = application.getInitParameter("pass");
+			dbConnection = DriverManager.getConnection(db_url,user,pass);
+			psCategory = dbConnection.prepareStatement("Select * from categories");
+			System.out.println("Db Connected succesfully");
+		} catch (SQLException | ClassNotFoundException e) {
+			System.out.println("Db connectoin failed" + e.getMessage());
+		}
+	}
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -35,7 +62,7 @@ public class CategoryWeb extends HttpServlet {
 		// TODO Auto-generated method stub
 		 PrintWriter out = response.getWriter();
 		 CategoryDAO dao = new CategoryDAOImpl();
-		 Iterator<com.batchone.web.onlineshopping.dao.Category> allCategories = dao.getAllCategory(); 
+		 Iterator<com.batchone.web.onlineshopping.dao.Category> allCategories = dao.getAllCategory(psCategory); 
 		 
 		 	out.println("<html><head><title>Category List</title></head><body>");
 		    out.println("<h2>Category Table</h2>");
@@ -60,5 +87,21 @@ public class CategoryWeb extends HttpServlet {
 		    out.println("</table>");
 		    out.println("</body></html>");
 	}
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		super.destroy();
+		
+		try {
+			if(dbConnection != null)
+				dbConnection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 
 }
