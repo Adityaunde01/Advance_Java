@@ -14,6 +14,7 @@ public class UserDAOImpl implements UserDao {
 
 	Connection dbConnection = null;
 	PreparedStatement psAuth = null;
+	PreparedStatement psRegister = null;
 	
 	public UserDAOImpl(ServletContext getSerContext) throws ServletException {
 		try {
@@ -23,7 +24,7 @@ public class UserDAOImpl implements UserDao {
 			String user = app.getInitParameter("user");
 			String pass = app.getInitParameter("pass");
 			dbConnection = DriverManager.getConnection(db_url,user,pass);
-			psAuth = dbConnection.prepareStatement("Select * from users where name=? and password=?");
+			
 			System.out.println("Db Connected succesfully");
 		} catch (SQLException | ClassNotFoundException e) {
 			System.out.println("Db connectoin failed");
@@ -38,6 +39,7 @@ public class UserDAOImpl implements UserDao {
 		
 		ResultSet result = null;
 		try {
+			psAuth = dbConnection.prepareStatement("Select * from users where name=? and password=?");
 			psAuth.setString(1, userName);
 			psAuth.setString(2, password);
 			result = psAuth.executeQuery();
@@ -72,11 +74,35 @@ public class UserDAOImpl implements UserDao {
 		try {
 			if(psAuth != null)
 				psAuth.close();
+			if(psRegister != null)
+				psRegister.close();
 			if(dbConnection != null)
 				dbConnection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+
+	@Override
+	public User registerUser(String name, String email, String password) {
+	    try {
+
+			psRegister = dbConnection.prepareStatement("insert into users set name=?,email=?,password=?");
+	    	psRegister.setString(1, name);
+	    	psRegister.setString(2, email);
+	    	psRegister.setString(3, password);
+	    	
+	    	psRegister.executeUpdate();
+
+	    	
+	    	return getUser(name, password);
+	    	
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

@@ -5,5 +5,6 @@ import java.util.Iterator;
 
 public interface CategoryDAO {
 	
-	public Iterator<Category> getAllCategory(PreparedStatement psCategory);
+	public Iterator<Category> getAllCategory();
+	public void close();
 }

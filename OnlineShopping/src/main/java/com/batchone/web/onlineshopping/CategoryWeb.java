@@ -24,8 +24,8 @@ import com.batchone.web.onlineshopping.dao.CategoryDAOImpl;
 @WebServlet("/Category")
 public class CategoryWeb extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	Connection dbConnection = null;
-	PreparedStatement psCategory = null; 
+	
+	CategoryDAO catDao = null;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -38,22 +38,10 @@ public class CategoryWeb extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		super.init(config);
+		catDao = new CategoryDAOImpl(config.getServletContext());
 		
-		
-		ServletContext application = config.getServletContext();
-		
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			String db_url = application.getInitParameter("db_url"); 
-			String user = application.getInitParameter("user");
-			String pass = application.getInitParameter("pass");
-			dbConnection = DriverManager.getConnection(db_url,user,pass);
-			psCategory = dbConnection.prepareStatement("Select * from categories");
-			System.out.println("Db Connected succesfully");
-		} catch (SQLException | ClassNotFoundException e) {
-			System.out.println("Db connectoin failed" + e.getMessage());
-		}
 	}
+	
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -61,8 +49,9 @@ public class CategoryWeb extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		 PrintWriter out = response.getWriter();
-		 CategoryDAO dao = new CategoryDAOImpl();
-		 Iterator<com.batchone.web.onlineshopping.dao.Category> allCategories = dao.getAllCategory(psCategory); 
+		 
+		 
+		 Iterator<com.batchone.web.onlineshopping.dao.Category> allCategories = catDao.getAllCategory(); 
 		 
 		 	out.println("<html><head><title>Category List</title></head><body>");
 		    out.println("<h2>Category Table</h2>");
@@ -93,15 +82,8 @@ public class CategoryWeb extends HttpServlet {
 		// TODO Auto-generated method stub
 		super.destroy();
 		
-		try {
-			if(dbConnection != null)
-				dbConnection.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		catDao.close();
 	}
-	
 	
 
 }

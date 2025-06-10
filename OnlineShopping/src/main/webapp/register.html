@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Form</title>
+    <title>Register Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,7 +14,7 @@
             align-items: center;
             height: 100vh;
         }
-        .login-container {
+        .register-container {
             background-color: white;
             padding: 20px;
             border-radius: 5px;
@@ -22,39 +22,39 @@
             width: 300px;
             text-align: center;
         }
-        .login-container h2 {
+        .register-container h2 {
             margin-bottom: 20px;
         }
-        .login-container input {
+        .register-container input {
             width: 100%;
             padding: 10px;
             margin: 5px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-        .login-container button {
+        .register-container button {
             width: 100%;
             padding: 10px;
-            background-color: #28a745;
+            background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-        .login-container button:hover {
-            background-color: #218838;
+        .register-container button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <form action="auth" method="POST">
-		    <input type="text" name="username" placeholder="Enter Username" required>
-		    <input type="password" name="password" placeholder="Enter Password" required>
-	    	<button type="submit">Login</button>
-		</form>
-        
+    <div class="register-container">
+        <h2>Register</h2>
+        <form action="register" method="POST">
+            <input type="text" name="name" placeholder="Enter Full Name" required>
+            <input type="email" name="email" placeholder="Enter Email" required>
+            <input type="password" name="password" placeholder="Enter Password" required>
+            <button type="submit">Register</button>
+        </form>
     </div>
 </body>
 </html>

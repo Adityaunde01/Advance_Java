@@ -1,5 +1,6 @@
 package com.batchone.web.onlineshopping;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -49,37 +50,35 @@ public class Authentication extends HttpServlet {
 		super.destroy();
 		userDao.close();
 	}
-
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-		
-		out.println("Invalid Usernam and pasword");
-	}
-	
+//
+//	@Override
+//	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		PrintWriter out = response.getWriter();
+//		
+//		out.println("Invalid Usernam and pasword");
+//	}
+//	
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
-		
+			
 			String userName = request.getParameter("username");
 
 			String password = request.getParameter("password");
 			
 			User user = userDao.getUser(userName, password);
 					
-			HttpSession session = request.getSession();
+			
+			
+			if(user == null ) {
+				response.getWriter().println("<font color='red'>Invalid User</font");
+				RequestDispatcher dispatch = request.getRequestDispatcher("login.html");
+				dispatch.include(request, response);
+				return;
+			}
+			HttpSession session = request.getSession(true);
 			session.setAttribute("userObj", user);
-			
-			response.sendRedirect("Category");
-			
-			
-			
-		
-		
-			
+			response.sendRedirect("Category");		
 	}
-
-	
-
 }
