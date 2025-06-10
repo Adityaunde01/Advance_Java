@@ -7,6 +7,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -17,6 +19,7 @@ import java.util.Iterator;
 
 import com.batchone.web.onlineshopping.dao.CategoryDAO;
 import com.batchone.web.onlineshopping.dao.CategoryDAOImpl;
+import com.batchone.web.onlineshopping.dao.User;
 
 /**
  * Servlet implementation class CategoryWeb
@@ -48,6 +51,19 @@ public class CategoryWeb extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		HttpSession session = request.getSession(false); //coming from client
+		//if present then forword and if not  return null and redirect to login
+		
+		
+		
+		if( session == null ) {
+			response.sendRedirect("login.html");
+			return;
+		}
+		
+	//	User user = (User)session.getAttribute("userObj");
+	
 		 PrintWriter out = response.getWriter();
 		 
 		 
