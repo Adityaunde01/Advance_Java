@@ -61,9 +61,8 @@ public class CategoryWeb extends HttpServlet {
 			response.sendRedirect("login.html");
 			return;
 		}
+		User user = (User)session.getAttribute("userObj");
 		
-	//	User user = (User)session.getAttribute("userObj");
-	
 		 PrintWriter out = response.getWriter();
 		 
 		 
