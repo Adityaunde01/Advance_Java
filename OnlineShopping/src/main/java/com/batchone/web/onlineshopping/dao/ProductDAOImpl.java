@@ -8,15 +8,37 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import jakarta.servlet.ServletContext;
+
 public class ProductDAOImpl implements ProductDAO {
 	
 	
-	
-	
+	Connection dbConnection = null;	
 	PreparedStatement psCategory = null;
 	
+	
+	
+	
+	public ProductDAOImpl(ServletContext application ) {
+		super();
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			String db_url = application.getInitParameter("db_url"); 
+			String user = application.getInitParameter("user");
+			String pass = application.getInitParameter("pass");
+			dbConnection = DriverManager.getConnection(db_url,user,pass);
+		
+			System.out.println("Db Connected succesfully");
+		} catch (SQLException | ClassNotFoundException e) {
+			System.out.println("Db connectoin failed" + e.getMessage());
+		}
+	}
+
+
+
+
 	@Override
-	public Iterator<Product> getProducts(String custId, Connection dbConnection) {
+	public Iterator<Product> getProducts(String custId ) {
 	
 		ResultSet resultProduct = null;
 		ArrayList<Product> allProducts = new ArrayList<>();
@@ -40,8 +62,6 @@ public class ProductDAOImpl implements ProductDAO {
 			try {
 				if(resultProduct != null)
 					resultProduct.close();
-				if(psCategory != null)
-						psCategory.close();
 			}
 			 catch(SQLException e) {
 				// TODO Auto-generated catch block
@@ -50,6 +70,21 @@ public class ProductDAOImpl implements ProductDAO {
 		}
 		
 		return null;
+	}
+	
+	
+	@Override
+	public void close() {
+		try {
+			if(psCategory != null)
+				psCategory.close();
+			if(dbConnection != null)
+				dbConnection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
 	}
 	
 }

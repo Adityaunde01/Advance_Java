@@ -79,6 +79,6 @@ public class Authentication extends HttpServlet {
 			}
 			HttpSession session = request.getSession(true);
 			session.setAttribute("userObj", user);
-			response.sendRedirect("Category");		
+			response.sendRedirect("getCategory.jsp");		
 	}
 }
