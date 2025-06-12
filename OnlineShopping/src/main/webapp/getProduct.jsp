@@ -91,9 +91,10 @@
             <td><%= cat.getPid() %></td>
             <td><%= cat.getName() %></td>
             <td><%= cat.getDesc() %></td>
+            <td><%=cat.getPrice() %></td>
             <td><img src="<%= cat.getImgUrl() %>" alt="Image" width="100" /></td>
             
-            <td><a href="cart?">add To cart</a></td>
+            <td><a href="addCart?productId=<%=cat.getPid()%>&categoryId<%=custID%>&price=<%=cat.getPrice() %>"  >add To cart</a></td>
         </tr>
         <%
             }
