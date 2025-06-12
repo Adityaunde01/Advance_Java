@@ -14,7 +14,7 @@
 
     <context-param>
         <param-name>pass</param-name>
-        <param-value>cdac</param-value>
+        <param-value>my-secret-pw</param-value>
     </context-param>
 
 
