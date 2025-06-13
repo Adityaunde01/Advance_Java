@@ -48,8 +48,9 @@ public class AddCart extends HttpServlet {
 			 }
 			 cart.addToCart(prod);
 		} catch (Exception e) {
+			e.printStackTrace();
 			response.getWriter().println("Exception Occured" + e.getMessage());
-			request.getRequestDispatcher("login.html").include(request, response);
+			response.sendRedirect("login.html");
 		}
 	}
 
