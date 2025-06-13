@@ -18,7 +18,7 @@ public class App
     public static void main( String[] args )
     {
         Configuration hibernaConfiguration = null;
-        
+        //comment
         SessionFactory hibSessionFactory = null;
         
         Session hibernateSession = null;
