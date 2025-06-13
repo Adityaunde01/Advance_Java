@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-@Embeddable
+//@Embeddable
 public class AdrCompKey  implements Serializable {
 	
 	@Column(name="uid")

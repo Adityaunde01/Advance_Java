@@ -4,6 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -12,12 +15,20 @@ import javax.persistence.Table;
 @Table(name="address")
 @NamedQueries({
     @NamedQuery(name = "getAllAddresses", query = "from Address"),
-    @NamedQuery(name = "getUserSpecificAddress", query = "select obj from Address obj where obj.addressId.userId = :userID")
+    @NamedQuery(name = "getUserSpecificAddress", query = "select obj from Address obj where obj.userId = :userID")
 })
 public class Address {
  
-	@EmbeddedId
-	AdrCompKey addressId;
+	@ManyToOne
+	@JoinColumn(name="uid", insertable = false, updatable =  false)
+	User userObject;
+	
+	
+	@Id
+	Integer address_id;	
+
+	@Column(name="uid")
+	Integer userId;
 	
 	@Column(name="street")
 	String street;
@@ -34,27 +45,61 @@ public class Address {
 		super();
 	}
 
-	public Address(AdrCompKey addressId, String street, String city, String state, String pincode) {
+	
+
+	public Address(User userObject, Integer address_id, Integer userId, String street, String city, String state,
+			String pincode) {
 		super();
-		this.addressId = addressId;
+		this.userObject = userObject;
+		this.address_id = address_id;
+		this.userId = userId;
 		this.street = street;
 		this.city = city;
 		this.state = state;
 		this.pincode = pincode;
 	}
 
+
+
 	@Column(name="pincode")
 	String pincode;
 
 
-
-	public AdrCompKey getAddressId() {
-		return addressId;
+	public User getUserObject() {
+		return userObject;
 	}
 
-	public void setAddressId(AdrCompKey addressId) {
-		this.addressId = addressId;
+
+
+	public void setUserObject(User userObject) {
+		this.userObject = userObject;
 	}
+
+
+
+	public Integer getAddress_id() {
+		return address_id;
+	}
+
+
+
+	public void setAddress_id(Integer address_id) {
+		this.address_id = address_id;
+	}
+
+
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+
 
 	public String getStreet() {
 		return street;
@@ -88,10 +133,14 @@ public class Address {
 		this.pincode = pincode;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "Address [addressId=" + addressId + ", street=" + street + ", city=" + city + ", state=" + state
-				+ ", pincode=" + pincode + "]";
+		return "Address [userObject=" + userObject + ", address_id=" + address_id + ", userId=" + userId + ", street="
+				+ street + ", city=" + city + ", state=" + state + ", pincode=" + pincode + "]";
 	}
+
+
 	
 }

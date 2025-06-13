@@ -48,7 +48,8 @@ public class App
             List<Address> listUserAddr = getUserAddress.getResultList();
             listUserAddr.forEach(System.out::println);
             System.out.println("__________________________");
-          
+            User userRel =  hibernateSession.find(User.class, 1);
+            userRel.getAddresses().forEach(System.out::println);
         }catch(Exception e) {
         	e.printStackTrace();
         }finally {	
