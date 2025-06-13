@@ -1,4 +1,4 @@
-package firstMaven.hibernate;
+package com.one.hibertest;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

@@ -6,13 +6,12 @@
 
 <hibernate-mapping>
 
-<class name="firstMaven.hibernate.entity.User" table="users">
-<id column="id" name="id" type="java.lang.Integer"></id>
+<class name="com.one.hibertest.pojo.User" table="users">
+<id column="uid" name="id" type="java.lang.Integer"></id>
 <property column="name" name="name" type="java.lang.String"/>
+<property column="city" name="city" type="java.lang.String"/>
 <property column="email" name="email" type="java.lang.String"/>
 <property column="password" name="password" type="java.lang.String"/>
-
-
 </class>
 
 </hibernate-mapping>
