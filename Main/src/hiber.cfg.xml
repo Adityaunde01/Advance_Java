@@ -12,6 +12,6 @@
 			<property name="connection.password">cdac</property>
 			<property name="connection.dialect">org.hibernate.dialect.MySqlDialect</property>
 			<property name="hbm2ddl.auto">validate</property>
-			<mapping resource="hiber.hbm.xml"/>
+			<mapping resource="hiber.hb.xml" />
 		</session-factory>
 	</hibernate-configuration>

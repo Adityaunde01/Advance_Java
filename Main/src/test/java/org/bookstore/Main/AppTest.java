@@ -1,4 +1,4 @@
-package firstMaven.hibernate;
+package org.bookstore.Main;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

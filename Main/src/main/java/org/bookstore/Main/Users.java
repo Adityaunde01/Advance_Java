@@ -1,6 +1,6 @@
-package firstMaven.hibernate.entity;
+package org.bookstore.Main;
 
-public class User {
+public class Users {
 	
 	private Integer id;
 	private String name;
@@ -10,12 +10,12 @@ public class User {
 	
 	
 	
-	public User() {
+	public Users() {
 		
 	}
 
 
-	public User(Integer id, String name, String email, String password) {
+	public Users(Integer id, String name, String email, String password) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -58,3 +58,4 @@ public class User {
 	
 	
 }
+
