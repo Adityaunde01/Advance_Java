@@ -99,10 +99,11 @@
             }
         %>
         <tr>
+        	<td></td>
             <td>Total</td>
             <td><%=price %></td>  
         </tr>
     </table>
-    
+    <a href="getCategory.jsp">back to products</a>
 </body>
 </html>
