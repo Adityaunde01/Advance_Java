@@ -6,22 +6,36 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
 public class UserDAOImpl implements UserDAO {
-
+    
     @Autowired
-    SessionFactory sessionFactory;
-
+    private SessionFactory sessionFactory;
+    
     @Override
-
     public User getUser() {
-        Session session = sessionFactory.getCurrentSession();
-        Transaction beginTransaction = session.beginTransaction();
-        User user = session.find(User.class, 1);
-        System.out.println(user);
-        beginTransaction.commit();
-        session.close();
+        Session session = null;
+        Transaction transaction = null;
+        User user = null;
+        
+        try {
+            session = sessionFactory.openSession(); 
+            transaction = session.beginTransaction();
+            user = session.get(User.class, 1);
+            transaction.commit();
+            System.out.println("User retrieved: " + user);
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        
         return user;
     }
 }

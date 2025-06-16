@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 public class User {
 	@Id
 	@Column(name = "id")
-	String id;
-	String username;
+	Integer  id;
+
 	@Column(name = "password")
 	String password;
 	@Column(name = "name")
@@ -26,21 +26,14 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(String username, String password, String name, String email) {
+	public User( String password, String name, String email) {
 		super();
-		this.username = username;
+	
 		this.password = password;
 		this.name = name;
 		this.email = email;
 	}
    
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
 
 	public String getPassword() {
 		return password;
@@ -68,7 +61,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", Password=" + password + ", name=" + name + ", email=" + email + "]";
+		return "User [Password=" + password + ", name=" + name + ", email=" + email + "]";
 	}
 	
 
