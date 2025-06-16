@@ -9,7 +9,7 @@
 			
 			  <!-- DB connection settings -->
 	        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-	        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hibernate</property>
+	        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/onlineshop</property>
 	        <property name="hibernate.connection.username">root</property>
 	        <property name="hibernate.connection.password">cdac</property>
 	
@@ -19,7 +19,7 @@
 	        <property name="hibernate.show_sql">true</property>
 	
 	        <!-- Register entity -->
-	        <mapping class="com.example.User"/>
+	        <mapping class="com.example.User"/>        
 			
 			
 			</session-factory>
