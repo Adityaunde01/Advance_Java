@@ -14,19 +14,20 @@ public class LoginController {
 	
 	
 	@RequestMapping("/login")
-	public String prepareUser(Model data) {
+	public void prepareUser(Model data) {
 				User objUser = new User();
 				
 				data.addAttribute("objUser",objUser);
 				
-				return "login";
+				//return "login";
 	}
 
 	@RequestMapping("/auth")
 	public ModelAndView authenticateUser(@ModelAttribute("objUser") User objUser) {
 		
-		
-		if(objUser.getUsername().equals("guru") && objUser.getPassword().equals("1234"))
+//	ModelAndView mv  = new ModelAndView("welcome","msg","authenticated Succesfully");
+//		mv.addObject(null, mv)
+		if(objUser.getName().equals("guru") && objUser.getPassword().equals("1234"))
 			return new ModelAndView("welcome","msg","authenticated Succesfully");
 		
 		return new ModelAndView("failure","msg","faild to authenticate or user is invalid");

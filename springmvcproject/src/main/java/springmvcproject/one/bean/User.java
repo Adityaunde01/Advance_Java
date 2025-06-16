@@ -1,11 +1,25 @@
 package springmvcproject.one.bean;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.springframework.stereotype.Component;
 
+
+@Entity
+@Table(name = "users")
 public class User {
+	@Id
+	@Column(name = "id")
+	String id;
 	String username;
-	String Password;
+	@Column(name = "password")
+	String password;
+	@Column(name = "name")
 	String name;
+	@Column(name = "email")
 	String email;
 	
 	public User() {
@@ -15,7 +29,7 @@ public class User {
 	public User(String username, String password, String name, String email) {
 		super();
 		this.username = username;
-		Password = password;
+		this.password = password;
 		this.name = name;
 		this.email = email;
 	}
@@ -29,11 +43,11 @@ public class User {
 	}
 
 	public String getPassword() {
-		return Password;
+		return password;
 	}
 
 	public void setPassword(String password) {
-		Password = password;
+		this.password = password;
 	}
 
 	public String getName() {
@@ -54,7 +68,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", Password=" + Password + ", name=" + name + ", email=" + email + "]";
+		return "User [username=" + username + ", Password=" + password + ", name=" + name + ", email=" + email + "]";
 	}
 	
 

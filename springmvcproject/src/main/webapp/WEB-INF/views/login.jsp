@@ -10,7 +10,7 @@
 </head>
 <body>
 	<form:form action="auth"   modelAttribute="objUser">
-			username: <form:input path="username"/><br/>
+			username: <form:input path="name"/><br/>
 			password: <form:input path="password"/><br/>
 			<form:button>Login</form:button>
 	</form:form>
