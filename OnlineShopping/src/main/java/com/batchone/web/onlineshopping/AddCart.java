@@ -49,34 +49,5 @@ public class AddCart extends HttpServlet {
             response.sendRedirect("login.html");
         }
     }
-<<<<<<< HEAD
-=======
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		try {
-			HttpSession session = request.getSession(false);
-			if(session == null) {
-				response.sendRedirect("login.html");
-			}
-			Integer produtId =  Integer.parseInt(request.getParameter("productId")); 
-			Integer customerId =  Integer.parseInt(request.getParameter("categoryId")); 
-			Float price =  Float.parseFloat(request.getParameter("price"));
-			CartProduct prod = new CartProduct(customerId, produtId, price);
-			 Cart cart = (Cart)session.getAttribute("cart");
-			 if(cart == null) {
-				 cart = new ShoppigCart();
-			 }
-			 cart.addToCart(prod);
-		} catch (Exception e) {
-			e.printStackTrace();
-			response.getWriter().println("Exception Occured" + e.getMessage());
-			response.sendRedirect("login.html");
-		}
-	}
-
->>>>>>> branch 'main' of https://github.com/Adityaunde01/Advance_Java.git
 }

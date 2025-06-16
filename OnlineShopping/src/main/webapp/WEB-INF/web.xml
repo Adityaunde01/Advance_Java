@@ -4,7 +4,7 @@
 
  <context-param>
         <param-name>db_url</param-name>
-        <param-value>jdbc:mysql://localhost:3306/onlineshop</param-value>
+        <param-value>jdbc:mysql://some-mysql:3306/onlineshop</param-value>
     </context-param>
 
     <context-param>
