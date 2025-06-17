@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.guru.boot.jpa.jpaRepo.dto.CategoryDTO;
 import com.guru.boot.jpa.jpaRepo.entity.Category;
@@ -14,6 +15,7 @@ import com.guru.boot.jpa.jpaRepo.repository.CategoryRepository;
 
 
 
+@Service
 public class CategoryDAOImpl implements CatagoryDAO {
 
 	@Autowired

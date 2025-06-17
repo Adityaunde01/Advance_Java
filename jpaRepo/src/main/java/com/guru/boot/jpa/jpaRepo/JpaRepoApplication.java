@@ -8,24 +8,20 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.guru.boot.jpa.jpaRepo.repository.UserRepository;
+import com.guru.boot.jpa.jpaRepo.services.CatagoryDAO;
 
-@SpringBootApplication(scanBasePackages = {"com.guru.boot.jpa.jpaRepo.services"})
-@EntityScan(basePackages = {"com.guru.boot.jpa.jpaRepo.entity"})
+@SpringBootApplication(scanBasePackages = {"com.guru.boot.jpa.jpaRepo"})
+@EntityScan(basePackages = {"com.guru.boot.jpa.jpaRepo.entity","com.guru.boot.jpa.jpaRepo.controller"})
 @EnableJpaRepositories(basePackages = {"com.guru.boot.jpa.jpaRepo.repository"})
-public class JpaRepoApplication implements CommandLineRunner {
+
+public class JpaRepoApplication {
 		
-	@Autowired
-	UserRepository user;
+
 	
 	public static void main(String[] args) {
 		SpringApplication.run(JpaRepoApplication.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		System.out.println("Hello");
-		System.out.println(user.findById(1));
-		
-	}
+	
 
 }
