@@ -10,12 +10,13 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"springmvcproject.one"}) // ✅ Scan all packages
-@Import(ApplicationConfigurator.class) // ✅ Import the main configuration
+@ComponentScan(basePackages = {"springmvcproject.one"})
+//@Import(ApplicationConfigurator.class)
 public class SpringWebMVCConfigurator {
 	
 	@Bean
 	public ViewResolver viewResolver() {
+		
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 		viewResolver.setPrefix("/WEB-INF/views/");
 		viewResolver.setSuffix(".jsp");

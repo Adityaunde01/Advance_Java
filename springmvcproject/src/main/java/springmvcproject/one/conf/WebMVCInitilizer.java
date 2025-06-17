@@ -13,9 +13,8 @@ public class WebMVCInitilizer implements WebApplicationInitializer {
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 			AnnotationConfigWebApplicationContext webContext = new  AnnotationConfigWebApplicationContext();
-				webContext.setServletContext(servletContext);
-			ServletRegistration.Dynamic frontController = servletContext.addServlet("primaryController", 
-					new DispatcherServlet(webContext));
+			webContext.setServletContext(servletContext);
+			ServletRegistration.Dynamic frontController = servletContext.addServlet("primaryController",  new DispatcherServlet(webContext));
 			frontController.setLoadOnStartup(10);
 			frontController.addMapping("/spring/*");
 			

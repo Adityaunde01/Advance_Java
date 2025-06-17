@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import springmvcproject.one.bean.User;
 
-@Component // ✅ Make it a Spring component
+@Component 
 @PropertySource("classpath:application.properties")
 public class HibernateConf {
 	
@@ -27,7 +27,7 @@ public class HibernateConf {
 		hibernateProps.setProperty("hibernate.connection.url", env.getProperty("hibernate.connection.url"));
 		hibernateProps.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
 		hibernateProps.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-		hibernateProps.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql")); // ✅ Fixed property name
+		hibernateProps.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql")); 
 
 		hibernateConfig.addProperties(hibernateProps);
 		hibernateConfig.addAnnotatedClass(User.class);
