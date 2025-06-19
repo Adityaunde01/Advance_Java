@@ -16,10 +16,10 @@ public class Contact {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 	
-	@Column(name = "first_name")
+	@Column(name = "firstName")
 	String firstName;
 	
-	@Column(name = "last_name")
+	@Column(name = "lastName")
 	String lastName;
 	
 	@Column(name = "email")
