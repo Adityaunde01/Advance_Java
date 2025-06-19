@@ -1,7 +1,11 @@
 package com.crudrest.dayEleven.controller;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,22 +20,48 @@ public class ContactMService {
 	
 	@GetMapping("/contact/{id}")
 	public ContactDTO getContactById(@PathVariable(name = "id")String id) {
-		try {
-			Integer cId = Integer.parseInt(id);
-			System.out.println(cId);
-			ContactDTO optContact = contactService.getContactByID(cId);
-			System.out.println(optContact);
-			return optContact;
-		} catch (Exception e) {
-			e.printStackTrace(); 
-				return null;
-		}	
+		ContactDTO contact = contactService.getContactByID(id);
+		
+		return contact;
+	}
+	
+	@GetMapping("/contactByName/{firstname}")
+	public ContactDTO getContactByFirstName(@PathVariable(name = "firstname")String id) {
+		ContactDTO contact = contactService.getContactByFirstName(id);
+		
+		return contact;
+	}
+	
+	@GetMapping("/contactByName/{firstname}/{lastName}")
+	public ContactDTO getContactByFirstName(@PathVariable(name = "firstname")String firstName,@PathVariable("lastName")String lastName) {
+		ContactDTO contact = contactService.getContactByFullName(firstName,lastName);
+		
+		return contact;
+	}
+	
+	@GetMapping("/contactNameLike/{firstname}")
+	public List<ContactDTO> getContactNameLike(@PathVariable(name = "firstname")String id) {
+		List<ContactDTO> contact = contactService.getContactLike(id);
+		
+		return contact;
 	}
 	
 	@GetMapping("/allContacts")
-	public String getAllContacts() {
+	public List<ContactDTO> getAllContacts() {
 		
-		return "getting contacts";
+		return contactService.getAllContacts();
+	}
+	
+	@GetMapping("/allContacts/{pageNo}/{pageSize}")
+	public List<ContactDTO> getAllContacts(@PathVariable("pageNo")Integer pageNo, @PathVariable("pageSize")Integer pageSize) {
+		
+		return contactService.getAllContacts(pageNo-1, pageSize);
+	}
+	
+	
+	@PostMapping("/addContact")
+	public Boolean addContact(@RequestBody ContactDTO contact) {
+		return contactService.addContact(contact);
 	}
 
 }
