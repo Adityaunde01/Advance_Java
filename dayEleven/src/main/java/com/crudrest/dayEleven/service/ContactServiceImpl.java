@@ -1,5 +1,8 @@
 package com.crudrest.dayEleven.service;
 
+
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +43,15 @@ public class ContactServiceImpl implements ContactService{
 
 	@Override
 	public List<ContactDTO> getAllContacts() {
-		return null;
+		Iterator<Contact> contactList = contacts.findAll().iterator();
+		List<ContactDTO> contactDTOs = new ArrayList<ContactDTO>();
+		while(contactList.next()!= null) {
+			ContactDTO categorydto = new ContactDTO();
+			BeanUtils.copyProperties(contactList.next(),categorydto);
+			contactDTOs.add(categorydto);
+		}
+		
+		return contactDTOs;
 	}
 
 	@Override
