@@ -4,17 +4,18 @@ package com.crudrest.dayEleven.service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
+
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.crudrest.dayEleven.dto.ContactDTO;
 import com.crudrest.dayEleven.entity.Contact;
+import com.crudrest.dayEleven.exception.Resource404Exception;
 import com.crudrest.dayEleven.repository.ContactRepo;
 
 @Service
@@ -25,21 +26,18 @@ public class ContactServiceImpl implements ContactService{
 	
 	@Override
 	public ContactDTO getContactByID(String id) {	
-		try {
+	
 			Integer cId = Integer.parseInt(id);
 			System.out.println(cId);
-			Optional<Contact> optContact = contacts.findById(cId);
+		Contact optContact = contacts.findById(cId).orElseThrow(()->new Resource404Exception("No contact Found"));
 		
-		if(!optContact.isEmpty()) {
+		
 			ContactDTO dtoContact = new ContactDTO();
-			BeanUtils.copyProperties(optContact.get(), dtoContact);
+			BeanUtils.copyProperties(optContact, dtoContact);
 			return dtoContact;
-		}
-		} catch (Exception e) {
-			e.printStackTrace(); 
-				return null;
-		}
-		return null;
+		
+	
+	
 	}
 
 	@Override
@@ -49,25 +47,21 @@ public class ContactServiceImpl implements ContactService{
 
 	@Override
 	public List<ContactDTO> getAllContacts() {
-		Iterator<Contact> contactIter = contacts.findAll().iterator();
-		List<ContactDTO> contactDtoList = new ArrayList<>();
-		while(contactIter.hasNext()) {
-			Contact contact = contactIter.next(); 
-		    ContactDTO dtoContact = new ContactDTO();
-		    BeanUtils.copyProperties(contact, dtoContact);
-		    contactDtoList.add(dtoContact);
-		    
+		try {
+			return contacts.findAll().stream().map(contact->{
+				ContactDTO dto = new ContactDTO();
+				BeanUtils.copyProperties(contact, dto);
+				return dto;
+			}).collect(Collectors.toList());
+		} catch (Exception e) {
+			throw new RuntimeException("Cant Fetch Contacts: "+e.getMessage(),e);
 		}
-		
-		
-		return contactDtoList;
 	}
 	
 
 	@Override
 	public List<ContactDTO> getAllContacts(Integer pageNo, Integer pageSize) {
-		
-		Sort sortLastName = Sort.by("firstName");
+		/*Sort sortLastName = Sort.by("firstName");
 		Pageable page = PageRequest.of(pageNo, pageSize,sortLastName);
 		Iterator<Contact> contactIter = contacts.findAll(page).iterator();
 		List<ContactDTO> contactDtoList = new ArrayList<>();
@@ -77,13 +71,26 @@ public class ContactServiceImpl implements ContactService{
 		    BeanUtils.copyProperties(contact, dtoContact);
 		    contactDtoList.add(dtoContact);
 		}
+		*/
+		try {
+			Pageable page = PageRequest.of(pageNo,pageSize);
+			return contacts.findAll(page).stream().map(contact->{
+				ContactDTO dto = new ContactDTO();
+				BeanUtils.copyProperties(contact, dto);
+				
+				return dto;
+			}).collect(Collectors.toList());
+		} catch (Exception e) {
+			throw new RuntimeException("Cant Fetch Contacts: "+e.getMessage(),e);
+		}
 		
-		return contactDtoList;
 	}
 
 	@Override
 	public ContactDTO getContactByFirstName(String name) {
 		Contact contact = contacts.findByFirstName(name);
+		if(contact == null)
+			throw new Resource404Exception("No user of name: "+ name);
 		ContactDTO contactDto = new ContactDTO();
 		BeanUtils.copyProperties(contact, contactDto);
 		return contactDto;
@@ -100,6 +107,8 @@ public class ContactServiceImpl implements ContactService{
 	@Override
 	public List<ContactDTO> getContactLike(String like) {
 		Iterator<Contact> contact =  contacts.getContactLike(like).iterator();
+		if(contact == null)
+			throw new Resource404Exception("none match the contact name like: "+ like);
 		List<ContactDTO> contactDtoList = new ArrayList<ContactDTO>();
 		
 		while(contact.hasNext()) {
@@ -115,6 +124,8 @@ public class ContactServiceImpl implements ContactService{
 	@Override
 	public ContactDTO getContactByFullName(String firstName, String lastName) {
 		Contact contact = contacts.findContactbyFullName(firstName, lastName);
+		if(contact == null)
+			throw new Resource404Exception("No user of name: "+ firstName + " " + lastName);
 		ContactDTO contactDto = new ContactDTO();
 		BeanUtils.copyProperties(contact, contactDto);
 		return contactDto;

@@ -1,8 +1,7 @@
 package com.file.upload.filemanagement.model;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+
 import org.springframework.web.multipart.MultipartFile;
 
 

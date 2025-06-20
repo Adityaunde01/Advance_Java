@@ -9,10 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+
 
 import com.guru.springbootdayten.entity.Users;
-import com.guru.springbootdayten.model.User;
 
 @SpringBootApplication(scanBasePackages = "com.guru.springbootdayten.entity")
 public class SpringbootdaytenApplication implements CommandLineRunner{

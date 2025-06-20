@@ -1,9 +1,5 @@
 package com.crudrest.dayEleven.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
 public class ContactDTO {
 	
 	Integer id;

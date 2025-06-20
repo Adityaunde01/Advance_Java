@@ -1,6 +1,5 @@
 package com.guru.springbootdayten.entity;
 
-import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
