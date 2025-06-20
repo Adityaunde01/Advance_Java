@@ -55,6 +55,8 @@ public class ContactServiceImpl implements ContactService{
 			}).collect(Collectors.toList());
 		} catch (Exception e) {
 			throw new RuntimeException("Cant Fetch Contacts: "+e.getMessage(),e);
+
+
 		}
 	}
 	
@@ -83,7 +85,7 @@ public class ContactServiceImpl implements ContactService{
 		} catch (Exception e) {
 			throw new RuntimeException("Cant Fetch Contacts: "+e.getMessage(),e);
 		}
-		
+
 	}
 
 	@Override

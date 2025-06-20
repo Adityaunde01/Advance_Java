@@ -24,7 +24,7 @@ public class UserDAOImpl implements UserDAO {
             user = session.get(User.class, 1);
             transaction.commit();
             System.out.println("User retrieved: " + user);
-        } catch (Exception e) {
+        } catch (Exception e) {	
             if (transaction != null) {
                 transaction.rollback();
             }
