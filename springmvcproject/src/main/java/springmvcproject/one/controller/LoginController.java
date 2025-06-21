@@ -31,4 +31,5 @@ public class LoginController {
 		
 		return new ModelAndView("failure", "msg", "failed to authenticate or user is invalid");
 	}
+
 }
