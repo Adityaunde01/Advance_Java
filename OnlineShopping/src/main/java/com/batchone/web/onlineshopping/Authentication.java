@@ -37,7 +37,7 @@ public class Authentication extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		super.init(config);
-		 userDao = new UserDAOImpl(getServletContext());
+		 userDao = new UserDAOImpl(config.getServletContext());
 		
 	}
 	

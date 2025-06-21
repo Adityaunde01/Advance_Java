@@ -16,7 +16,7 @@ import com.crudrest.dayEleven.entity.ErrorMessage;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(Resource404Exception.class)
-	@ResponseStatus(HttpStatus.NOT_FOUND)
+	//@ResponseStatus(HttpStatus.NOT_FOUND)
 	public ResponseEntity<ErrorMessage> handle404Exception(Resource404Exception ex, WebRequest request){
 		ErrorMessage message = new ErrorMessage(new Timestamp(System.currentTimeMillis()), ex.getMessage(),request.getDescription(false));
 		
@@ -24,11 +24,11 @@ public class GlobalExceptionHandler {
 	}
 	
 	@ExceptionHandler(Exception.class)
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	//@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public ResponseEntity<ErrorMessage> handleOtherException (Exception ex, WebRequest request){
 		ErrorMessage message = new ErrorMessage(new Timestamp(System.currentTimeMillis()), ex.getMessage(),request.getDescription(false));
 		
-		  return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 }

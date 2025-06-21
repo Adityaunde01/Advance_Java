@@ -29,7 +29,7 @@ public class ContactServiceImpl implements ContactService{
 	
 			Integer cId = Integer.parseInt(id);
 			System.out.println(cId);
-		Contact optContact = contacts.findById(cId).orElseThrow(()->new Resource404Exception("No contact Found"));
+			Contact optContact = contacts.findById(cId).orElseThrow(()->new Resource404Exception("No contact Found"));
 		
 		
 			ContactDTO dtoContact = new ContactDTO();

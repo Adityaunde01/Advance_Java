@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.crudrest.dayEleven.dto.ContactDTO;
+import com.crudrest.dayEleven.exception.Resource404Exception;
 import com.crudrest.dayEleven.service.ContactService;
+
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 public class ContactMService {
@@ -18,15 +22,26 @@ public class ContactMService {
 	@Autowired
 	ContactService contactService;
 	
+	@GetMapping("/{user}")
+	public String authenticate(@PathVariable("user")String user, HttpSession session) {
+		session.setAttribute("userObj", user);
+		
+		return "user added and authenticated: " + user;
+	}
+	
 	@GetMapping("/contact/{id}")
-	public ContactDTO getContactById(@PathVariable(name = "id")String id) {
+	public ContactDTO getContactById(@PathVariable(name = "id")String id,HttpSession session) {
+		if(session.getAttribute("userObj") == null)
+			throw new Resource404Exception("the session has expired go to root url");
 		ContactDTO contact = contactService.getContactByID(id);
 		
 		return contact;
 	}
 	
 	@GetMapping("/contactByName")
-	public ContactDTO getContactByFirstName(@RequestParam(name = "firstname")String id) {
+	public ContactDTO getContactByFirstName(@RequestParam(name = "firstname")String id,HttpSession session) {
+		if(session.getAttribute("userObj") == null)
+			throw new Resource404Exception("the session has expired go to root url");
 		ContactDTO contact = contactService.getContactByFirstName(id);
 		
 		return contact;
