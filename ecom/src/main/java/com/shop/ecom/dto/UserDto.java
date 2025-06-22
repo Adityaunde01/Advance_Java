@@ -6,21 +6,16 @@ public class UserDto {
 
 	private String  name;
 
-
-	private String password;
-
-
 	private String emial;
 	
 	public UserDto() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserDto(Integer id, String name, String password, String emial) {
+	public UserDto(Integer id, String name, String emial) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.password = password;
 		this.emial = emial;
 	}
 
@@ -40,13 +35,6 @@ public class UserDto {
 		this.name = name;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	public String getEmial() {
 		return emial;
@@ -58,6 +46,6 @@ public class UserDto {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", password=" + password + ", emial=" + emial + "]";
+		return "User [id=" + id + ", name=" + name + ", emial=" + emial + "]";
 	}
 }
